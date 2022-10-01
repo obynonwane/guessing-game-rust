@@ -1,6 +1,7 @@
 use std::io;
 use std::cmp::Ordering;
 use rand::Rng;
+use colored::*;
 
 fn main() {
 
@@ -26,15 +27,18 @@ fn main() {
     //print macro
     println!("You guessed: {guess}");
 
-     //convert our input into integer 
-     let guess: u32 = guess.trim().parse().expect("Please Type a number");
+     //convert our input into integer and check for error incase of invalid input
+     let guess: u32 = match guess.trim().parse() {
+        Ok(num) => num,
+        Err(_) => continue
+     };
 
-     //compare two numbers
+     //compare two numbers using match
     match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
+        Ordering::Less => println!("{}", "Too small!".red()),
+        Ordering::Greater => println!("{}", "Too big!".blue()),
         Ordering::Equal => {
-            println!("You win!");
+            println!("{}", "You win!".green());
             break;
         },
     }
